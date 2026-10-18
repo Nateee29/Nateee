@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#e63946" />
+  <title>Coffee Date? ❤️</title>
+  <style>
+    :root { --red: #e63946; --deep: #b91c35; --pink: #fff0f2; --white: #fff; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100svh; padding: 22px;
+      display: grid; place-items: center; overflow-x: hidden;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #4b1720;
+      background: radial-gradient(circle at top, #fff 0, #fff4f5 42%, #ffdfe4 100%);
+    }
+    .heart-bg { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+    .heart-bg span { position: absolute; bottom: -50px; color: #f5a2ad; opacity: .42; animation: floatUp linear infinite; }
+    .heart-bg span:nth-child(1) { left: 8%; font-size: 25px; animation-duration: 11s; }
+    .heart-bg span:nth-child(2) { left: 27%; font-size: 17px; animation-duration: 8s; animation-delay: 2s; }
+    .heart-bg span:nth-child(3) { left: 72%; font-size: 30px; animation-duration: 12s; animation-delay: 1s; }
+    .heart-bg span:nth-child(4) { left: 91%; font-size: 21px; animation-duration: 9s; animation-delay: 3s; }
+    @keyframes floatUp { to { transform: translateY(-115vh) rotate(25deg); opacity: 0; } }
+    .card {
+      position: relative; z-index: 1; width: min(100%, 410px); padding: 32px 23px;
+      text-align: center; background: rgba(255,255,255,.94); border: 2px solid #ffd1d8;
+      border-radius: 28px; box-shadow: 0 18px 50px #b91c3520;
+    }
+    .big-heart { font-size: 52px; line-height: 1.2; animation: heartbeat 1.5s infinite; }
+    @keyframes heartbeat { 0%, 100% { transform: scale(1); } 12% { transform: scale(1.12); } 24% { transform: scale(1); } 36% { transform: scale(1.08); } }
+    .eyebrow { margin: 12px 0 6px; color: var(--red); font-weight: 800; letter-spacing: 2px; font-size: .75rem; text-transform: uppercase; }
+    h1 { margin: 0; font-size: clamp(1.8rem, 8vw, 2.45rem); line-height: 1.12; color: var(--deep); }
+    .subtitle { margin: 15px auto 24px; max-width: 290px; color: #78515a; line-height: 1.55; }
+    .coffee { font-size: 54px; margin: 6px 0 22px; filter: drop-shadow(0 5px 5px #00000012); }
+    .buttons { display: flex; gap: 12px; justify-content: center; }
+    button { border: 0; border-radius: 999px; min-height: 52px; padding: 13px 24px; font: inherit; font-weight: 800; font-size: 1rem; cursor: pointer; touch-action: manipulation; transition: transform .16s, box-shadow .16s; }
+    button:active { transform: scale(.97); }
+    .yes { flex: 1; color: white; background: linear-gradient(135deg, #f04b5c, #c91f3b); box-shadow: 0 8px 18px #e6394640; }
+    .no { flex: 1; color: var(--deep); background: #fff; border: 2px solid #f5b6c0; }
+    .no.runaway { position: fixed; z-index: 20; flex: none; width: 140px; box-shadow: 0 8px 20px #b91c3530; }
+    .tiny { margin: 20px 0 0; font-size: .78rem; color: #ad7a83; }
+    .modal { position: fixed; inset: 0; z-index: 5; padding: 20px; display: none; place-items: center; background: #4a101bc9; }
+    .modal.show { display: grid; }
+    .modal-box { width: min(100%, 360px); padding: 25px 21px; text-align: center; background: white; border-radius: 24px; box-shadow: 0 20px 70px #0004; animation: pop .22s ease-out; }
+    @keyframes pop { from { transform: scale(.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .modal-box h2 { margin: 8px 0; color: var(--deep); font-size: 1.55rem; }
+    .modal-box p { color: #78515a; line-height: 1.5; }
+    .gif { display: block; width: 100%; max-width: 245px; max-height: 210px; object-fit: contain; margin: 12px auto; border-radius: 14px; }
+    .close { width: 100%; margin-top: 8px; background: var(--red); color: white; }
+    .warning-icon { font-size: 48px; }
+    .shutdown { padding: 12px; margin: 14px 0; border: 1px solid #ffc5cd; border-radius: 14px; background: #fff2f4; color: #a3162d; font-weight: 700; }
+    @media (max-width: 360px) { body { padding: 12px; } .card { padding: 26px 17px; } button { padding: 12px 15px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <div class="heart-bg" aria-hidden="true"><span>♥</span><span>♥</span><span>♥</span><span>♥</span></div>
+
+  <main class="card">
+    <div class="big-heart" aria-hidden="true">❤️</div>
+    <p class="eyebrow">A little question for you Angel</p>
+    <h1>Will you go for coffee or matcha with me?</h1>
+    <p class="subtitle">Your choice: cozy coffee or sweet matcha — as long as it’s with you. ❤️</p>
+    <div class="coffee" aria-label="Coffee and matcha drinks">☕ 🍵💕</div>
+    <div class="buttons">
+      <button class="yes" id="yesBtn">YES! ❤️</button>
+      <button class="no" id="noBtn">No 🙈</button>
+    </div>
+    <p class="tiny">Made by: jnthn_hdlg❤️</p>
+  </main>
+
+  <section class="modal" id="yesModal" role="dialog" aria-modal="true" aria-labelledby="yesTitle">
+    <div class="modal-box">
+      <div style="font-size:38px" aria-hidden="true">🥹💗</div>
+      <h2 id="yesTitle">YAY!! It's a date! ❤️</h2>
+      <p>You just made me the happiest person. Can't wait to get coffee or matcha with you! ☕🍵💞</p>
+      <img class="gif" src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" alt="Cute romantic in-love animated GIF" />
+      <button class="close" data-close="yesModal">Awww, okay! 💋</button>
+    </div>
+  </section>
+
+  <section class="modal" id="noModal" role="dialog" aria-modal="true" aria-labelledby="noTitle">
+    <div class="modal-box">
+      <div class="warning-icon" aria-hidden="true">💔</div>
+      <h2 id="noTitle">Wait… are you sure? 🥺</h2>
+      <p>My heart needs a moment to recover.</p>
+      <div class="shutdown">⚠️ DRAMATIC HEART SHUTDOWN<br><small>Just kidding! Your phone is completely safe. ❤️</small></div>
+      <p>Maybe give that YES button another thought? ☕</p>
+      <button class="close" id="tryAgain">Let me think again 💖</button>
+    </div>
+  </section>
+
+  <script>
+    const yesModal = document.getElementById('yesModal');
+    const noModal = document.getElementById('noModal');
+    document.getElementById('yesBtn').addEventListener('click', () => yesModal.classList.add('show'));
+
+    // The NO button runs away to a random spot whenever someone tries to tap/hover it.
+    const noBtn = document.getElementById('noBtn');
+    function moveNoButton() {
+      noBtn.classList.add('runaway');
+      const margin = 12;
+      const maxX = Math.max(margin, window.innerWidth - noBtn.offsetWidth - margin);
+      const maxY = Math.max(margin, window.innerHeight - noBtn.offsetHeight - margin);
+      const x = margin + Math.random() * (maxX - margin);
+      const y = margin + Math.random() * (maxY - margin);
+      noBtn.style.left = `${x}px`;
+      noBtn.style.top = `${y}px`;
+    }
+    noBtn.addEventListener('pointerenter', moveNoButton);
+    noBtn.addEventListener('pointerdown', event => {
+      event.preventDefault();
+      moveNoButton();
+    });
+    noBtn.addEventListener('click', event => {
+      event.preventDefault();
+      moveNoButton();
+    });
+    document.getElementById('tryAgain').addEventListener('click', () => noModal.classList.remove('show'));
+    document.querySelectorAll('[data-close]').forEach(button => {
+      button.addEventListener('click', () => document.getElementById(button.dataset.close).classList.remove('show'));
+    });
+    document.querySelectorAll('.modal').forEach(modal => {
+      modal.addEventListener('click', event => { if (event.target === modal) modal.classList.remove('show'); });
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') document.querySelectorAll('.modal').forEach(modal => modal.classList.remove('show'));
+    });
+  </script>
+</body>
+</html>
